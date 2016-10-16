@@ -3,8 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Core", "CloudBus.Core\CloudBus.Core.csproj", "{CE435C77-CDC2-471E-8A0B-C2273D45D83F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Tests", "1 - Tests", "{A4F92F53-3D78-4572-98BB-83966443C3FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Core", "2 - Core", "{548F2F7D-2D3E-4535-A1CF-7E4B034D9068}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infrastrcuture", "3 - Infrastrcuture", "{99CF57C6-B704-4BEB-B330-E822057A0B13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Tests", "CloudBus.Tests\CloudBus.Tests.csproj", "{3F80FB84-7C37-418C-89A9-894A11686DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Aws", "CloudBus.Aws\CloudBus.Aws.csproj", "{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE435C77-CDC2-471E-8A0B-C2273D45D83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE435C77-CDC2-471E-8A0B-C2273D45D83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE435C77-CDC2-471E-8A0B-C2273D45D83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE435C77-CDC2-471E-8A0B-C2273D45D83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F80FB84-7C37-418C-89A9-894A11686DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F80FB84-7C37-418C-89A9-894A11686DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F80FB84-7C37-418C-89A9-894A11686DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F80FB84-7C37-418C-89A9-894A11686DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE435C77-CDC2-471E-8A0B-C2273D45D83F} = {548F2F7D-2D3E-4535-A1CF-7E4B034D9068}
+		{3F80FB84-7C37-418C-89A9-894A11686DDE} = {A4F92F53-3D78-4572-98BB-83966443C3FB}
+		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567} = {99CF57C6-B704-4BEB-B330-E822057A0B13}
 	EndGlobalSection
 EndGlobal
