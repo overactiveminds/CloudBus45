@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
+using System.Threading;
 using CloudBus.Aws.Config;
 using CloudBus.Core;
 
@@ -24,15 +24,19 @@ namespace CloudBus.Aws
 
         public void Start()
         {
+            // TODO: Add cancelllation token
             int id = 1;
             List<AwsWorkerThread> workers = awsBusConfig.QueueUrlsByType.Select(commandType => new AwsWorkerThread(id++, configuration, awsBusConfig, commandType.Value)).ToList();
-            
-            // Create a queue for this worker and subscribe to each event type
-            throw new NotImplementedException();
+            foreach (var awsWorkerThread in workers)
+            {
+                Thread thread = new Thread(awsWorkerThread.Work);
+                thread.Start();
+            }
         }
 
         public void Stop()
         {
+            // TODO: Cancel workers
             throw new NotImplementedException();
         }
     }

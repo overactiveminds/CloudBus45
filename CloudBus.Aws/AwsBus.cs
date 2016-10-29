@@ -27,7 +27,7 @@ namespace CloudBus.Aws
             string messageBody = config.MessageSerializer.Serialize(command);
             MessageEnvelope envelope = new MessageEnvelope
             {
-                BodyType = typeof (TCommand).ToString(),
+                BodyType = typeof (TCommand).AssemblyQualifiedName,
                 Body = messageBody
             };
             SendMessageRequest request = new SendMessageRequest(awsBusConfiguration.QueueUrlsByType[typeof(TCommand)], config.MessageSerializer.Serialize(envelope));

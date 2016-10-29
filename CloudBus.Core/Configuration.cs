@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CloudBus.Core.Serialization;
 
 namespace CloudBus.Core
 {
@@ -21,7 +22,8 @@ namespace CloudBus.Core
 
         public Configuration()
         {
-            AssembliesToScan = new List<Assembly>();
+            MessageSerializer = new JsonDataContractSerializer();
+            AssembliesToScan = AppDomain.CurrentDomain.GetAssemblies().ToList();
         }
 
         public Configuration WithMessageSerializer(IMessageSerializer messageSerializer)
@@ -52,7 +54,6 @@ namespace CloudBus.Core
                 throw new ArgumentException("TCommand must be either an abstract class or interface", nameof(TCommand));
             }
             CommandType = typeof (TCommand);
-            AddAssemblyToScan(Assembly.GetAssembly(typeof (TCommand)));
             return this;
         }
 
@@ -64,7 +65,6 @@ namespace CloudBus.Core
                 throw new ArgumentException("TEvent must be either an abstract class or interface", nameof(eventType));
             }
             EventType = typeof (TEvent);
-            AddAssemblyToScan(Assembly.GetAssembly(typeof(TEvent)));
             return this;
         }
 
@@ -80,6 +80,12 @@ namespace CloudBus.Core
             {
                 AssembliesToScan.Add(assemblyToAdd);
             }
+            return this;
+        }
+
+        public Configuration WithAssebliesToScan(IEnumerable<Assembly> assemblies)
+        {
+            AssembliesToScan = assemblies.ToList();
             return this;
         }
 

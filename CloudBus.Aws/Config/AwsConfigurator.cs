@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CloudBus.Aws.Environment;
 using CloudBus.Core;
+using CloudBus.Core.Assemblies;
 
 namespace CloudBus.Aws.Config
 {
@@ -41,8 +42,6 @@ namespace CloudBus.Aws.Config
             return this;
         }
 
-        
-
         public ICloudBusFactory Build(IConfiguration busConfig)
         {
             AssemblyScanner scanner = new AssemblyScanner();
@@ -74,10 +73,10 @@ namespace CloudBus.Aws.Config
 
             // As we have a worker config, create subscriptions for our events
             string queueName = WorkerConfig.SubscriptionQueueNamingConvention.GetWorkerQueueName();
-            builder.CreateQueueIfDoesntExist(queueName);
+            string queueUrl = builder.CreateQueueIfDoesntExist(queueName);
             foreach (var eventTypeAndTopicArn in eventTypeAndTopicArns)
             {
-                builder.SubscribeQueueToTopic(queueName, eventTypeAndTopicArn.Value);
+                builder.SubscribeQueueToTopic(queueUrl, eventTypeAndTopicArn.Value);
             }
             return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, queueName);
         }

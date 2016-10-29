@@ -1,7 +1,11 @@
-﻿using Amazon;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Threading;
+using Amazon;
 using CloudBus.Aws.Config;
 using CloudBus.Aws.Environment;
 using CloudBus.Core;
+using CloudBus.Core.HandlerResolution;
 using NUnit.Framework;
 
 namespace CloudBus.Tests.Integration.Aws
@@ -16,8 +20,16 @@ namespace CloudBus.Tests.Integration.Aws
             Configuration config = new Configuration();
             config.DifferentiateCommandsAs<Command>();
             config.DifferentiateEventsAs<Event>();
+
+            config.WithHandlerResolver(new ActionHandlerResolver()
+                .WithCommandHandler<SomeCommand>(command =>
+                {
+                    Console.WriteLine($"SommeCommand Received: {command.Id}");
+                }));
+
             config.WithBusConfiguration(new AwsConfigurator()
                     .WithClientFactory(new AwsClientFactory(RegionEndpoint.EUWest1))
+                    .WithWorkerConfig(new AwsWorkerConfiguration())
                 );
 
             // Act
@@ -25,23 +37,36 @@ namespace CloudBus.Tests.Integration.Aws
             IBus bus = busFactory.CreateBus();
 
             // Assert
-            bus.Send(new SomeCommand());
+            bus.Send(new SomeCommand
+            {
+                Id = Guid.NewGuid()
+            });
+
+            var worker = busFactory.CreateWorker();
+            worker.Start();
+            
+
+            Thread.Sleep(10000);
+
         }
 
-
+        [DataContract]
         public abstract class Command
         {
 
         }
 
+        [DataContract]
         public abstract class Event
         {
             
         }
 
+        [DataContract]
         public class SomeCommand : Command
         {
-            
+            [DataMember]
+            public Guid Id { get; set; }
         }
 
         public class SomeEvent : Event

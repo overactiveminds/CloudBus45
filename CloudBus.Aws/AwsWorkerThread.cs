@@ -60,7 +60,23 @@ namespace CloudBus.Aws
             var handlers = config.HandlerResolver.ResolveHandlersForMessage(bodyType);
 
             // Invoke
-            handlers.ForEach(x => x(body));
+            handlers.ForEach(x =>
+            {
+                ThreadPool.QueueUserWorkItem(y =>
+                {
+                    try
+                    {
+                        x(body);
+                        // TODO: Check if we should delete based on receive policy
+                        sqs.DeleteMessage(queueUrl, message.ReceiptHandle);
+                    }
+                    catch (Exception ex)
+                    {
+                        // TODO: Log execptions
+                        Console.WriteLine("Error handling message {0}", message);
+                    }
+                });
+            });
         }
     }
 }

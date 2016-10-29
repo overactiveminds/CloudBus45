@@ -53,9 +53,9 @@ namespace CloudBus.Aws.Environment
             }
         }
 
-        public void SubscribeQueueToTopic(string queueName, string topicArn)
+        public void SubscribeQueueToTopic(string queueUrl, string topicArn)
         {
-            throw new NotImplementedException();
+            string result = sns.SubscribeQueue(topicArn, sqs, queueUrl);
         }
     }
 }

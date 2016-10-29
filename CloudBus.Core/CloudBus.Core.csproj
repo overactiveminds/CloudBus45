@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyScanner.cs" />
+    <Compile Include="Assemblies\AssemblyScanner.cs" />
+    <Compile Include="HandlerResolution\ActionHandlerResolver.cs" />
     <Compile Include="ICloudBusConfiguration.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IWorker.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="IHandlerResolver.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="IMessageSerializer.cs" />
+    <Compile Include="Serialization\JsonDataContractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
