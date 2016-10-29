@@ -39,7 +39,7 @@ namespace CloudBus.Aws
             string messageBody = config.MessageSerializer.Serialize(@event);
             MessageEnvelope envelope = new MessageEnvelope
             {
-                BodyType = typeof(TEvent).ToString(),
+                BodyType = typeof(TEvent).AssemblyQualifiedName,
                 Body = messageBody
             };
             PublishRequest publishRequest = new PublishRequest(awsBusConfiguration.TopicArnsByType[typeof(TEvent)], config.MessageSerializer.Serialize(envelope));

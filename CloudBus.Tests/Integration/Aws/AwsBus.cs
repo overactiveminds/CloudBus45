@@ -22,10 +22,15 @@ namespace CloudBus.Tests.Integration.Aws
             config.DifferentiateEventsAs<Event>();
 
             config.WithHandlerResolver(new ActionHandlerResolver()
-                .WithCommandHandler<SomeCommand>(command =>
+                /*.WithCommandHandler<SomeCommand>(command =>
                 {
                     Console.WriteLine($"SommeCommand Received: {command.Id}");
+                })*/
+                .WithEventHandler<SomeEvent>(@event =>
+                {
+                    Console.WriteLine("$SomeEvent Received:");  
                 }));
+
 
             config.WithBusConfiguration(new AwsConfigurator()
                     .WithClientFactory(new AwsClientFactory(RegionEndpoint.EUWest1))
@@ -38,6 +43,11 @@ namespace CloudBus.Tests.Integration.Aws
 
             // Assert
             bus.Send(new SomeCommand
+            {
+                Id = Guid.NewGuid()
+            });
+
+            bus.Publish(new SomeEvent
             {
                 Id = Guid.NewGuid()
             });
@@ -69,9 +79,11 @@ namespace CloudBus.Tests.Integration.Aws
             public Guid Id { get; set; }
         }
 
+        [DataContract]
         public class SomeEvent : Event
         {
-            
+            [DataMember]
+            public Guid Id { get; set; }
         }
     }
 }

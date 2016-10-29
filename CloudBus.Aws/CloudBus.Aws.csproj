@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,6 +52,7 @@
     <Compile Include="AwsBus.cs" />
     <Compile Include="AwsCloudBusFactory.cs" />
     <Compile Include="AwsWorkerThread.cs" />
+    <Compile Include="CommandMessageAdapter.cs" />
     <Compile Include="Config\AwsBusConfig.cs" />
     <Compile Include="Config\AwsConfigurator.cs" />
     <Compile Include="Config\AwsWorkerConfiguration.cs" />
@@ -66,8 +68,10 @@
     <Compile Include="Environment\QueueAndTopicNamingConvention.cs" />
     <Compile Include="Exceptions\CommandHandlersNotRegisteredException.cs" />
     <Compile Include="Exceptions\MultipleHandlersForCommandException.cs" />
+    <Compile Include="MessageAdapter.cs" />
     <Compile Include="MessageEnvelope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnsEventMessageAdapter.cs" />
     <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>

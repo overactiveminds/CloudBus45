@@ -28,6 +28,7 @@ namespace CloudBus.Core.HandlerResolution
             if (!allHandlers.TryGetValue(typeof (TEvent), out handlers))
             {
                 handlers = new List<Action<object>>();
+                allHandlers.Add(typeof(TEvent), handlers);
             }
             handlers.Add(x => handler((TEvent) x));
             return this;

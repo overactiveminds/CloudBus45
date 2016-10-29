@@ -18,14 +18,17 @@ namespace CloudBus.Aws
 
         private readonly string queueUrl;
 
+        private readonly IMessageAdapter messageAdapter;
+
         private IAmazonSQS sqs;
 
-        public AwsWorkerThread(int id, IConfiguration config, IAwsBusConfiguration awsConfig, string queueUrl)
+        public AwsWorkerThread(int id, IConfiguration config, IAwsBusConfiguration awsConfig, string queueUrl, IMessageAdapter messageAdapter)
         {
             Id = id;
             this.config = config;
             this.awsConfig = awsConfig;
             this.queueUrl = queueUrl;
+            this.messageAdapter = messageAdapter;
             this.sqs = this.awsConfig.ClientFactory.CreateSqsClient();
         }
 
@@ -51,8 +54,8 @@ namespace CloudBus.Aws
         private void HandleSqsMessage(Message message)
         {
             // Deserialize to envelope
-            MessageEnvelope envelope = (MessageEnvelope) config.MessageSerializer.Deserialize(typeof(MessageEnvelope), message.Body);
-
+            MessageEnvelope envelope = (MessageEnvelope) config.MessageSerializer.Deserialize(typeof(MessageEnvelope), messageAdapter.GetMessageBody(message));
+            
             Type bodyType = Type.GetType(envelope.BodyType);
             object body = config.MessageSerializer.Deserialize(bodyType, envelope.Body);
 

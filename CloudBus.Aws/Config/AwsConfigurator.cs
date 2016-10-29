@@ -65,20 +65,20 @@ namespace CloudBus.Aws.Config
             Dictionary<Type, string> eventTypeAndTopicArns = allEventTypes.ToDictionary(eventType => eventType, eventType => builder.CreateTopicIfDoesntExist(QueueAndTopicNamingConvention.GetTopicNameForEvent(eventType)));
 
             var awsConfig = new AwsBusConfig(commandTypeAndQueueUri, eventTypeAndTopicArns, QueueAndTopicNamingConvention, ClientFactory);
+
             if (WorkerConfig == null)
             {
-                // No need to doanything else
-                return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, null);
+                return new AwsCloudBusFactory(busConfig, awsConfig);
             }
 
             // As we have a worker config, create subscriptions for our events
             string queueName = WorkerConfig.SubscriptionQueueNamingConvention.GetWorkerQueueName();
-            string queueUrl = builder.CreateQueueIfDoesntExist(queueName);
+            string eventSubscriptionQueueUrl = builder.CreateQueueIfDoesntExist(queueName);
             foreach (var eventTypeAndTopicArn in eventTypeAndTopicArns)
             {
-                builder.SubscribeQueueToTopic(queueUrl, eventTypeAndTopicArn.Value);
+                builder.SubscribeQueueToTopic(eventSubscriptionQueueUrl, eventTypeAndTopicArn.Value);
             }
-            return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, queueName);
+            return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, eventSubscriptionQueueUrl);
         }
     }
 }

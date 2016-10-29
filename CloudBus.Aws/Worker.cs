@@ -11,22 +11,23 @@ namespace CloudBus.Aws
     {
         private IAwsBusConfiguration awsBusConfig;
         private readonly IAwsWorkerConfiguration workerConfiguration;
-        private readonly string localEventQueueName;
+        private readonly string eventSubscriptionQueueUrl;
         private IConfiguration configuration;
 
-        public Worker(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string localEventQueueName)
+        public Worker(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string eventSubscriptionQueueUrl)
         {
             this.configuration = configuration;
             this.awsBusConfig = awsBusConfig;
             this.workerConfiguration = workerConfiguration;
-            this.localEventQueueName = localEventQueueName;
+            this.eventSubscriptionQueueUrl = eventSubscriptionQueueUrl;
         }
 
         public void Start()
         {
             // TODO: Add cancelllation token
             int id = 1;
-            List<AwsWorkerThread> workers = awsBusConfig.QueueUrlsByType.Select(commandType => new AwsWorkerThread(id++, configuration, awsBusConfig, commandType.Value)).ToList();
+            List<AwsWorkerThread> workers = awsBusConfig.QueueUrlsByType.Select(commandType => new AwsWorkerThread(id++, configuration, awsBusConfig, commandType.Value, new CommandMessageAdapter())).ToList();
+            workers.Add(new AwsWorkerThread(id, configuration, awsBusConfig, eventSubscriptionQueueUrl, new SnsEventMessageAdapter()));
             foreach (var awsWorkerThread in workers)
             {
                 Thread thread = new Thread(awsWorkerThread.Work);

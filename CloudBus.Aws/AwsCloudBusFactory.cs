@@ -1,4 +1,5 @@
-﻿using CloudBus.Aws.Config;
+﻿using System;
+using CloudBus.Aws.Config;
 using CloudBus.Core;
 
 namespace CloudBus.Aws
@@ -6,14 +7,19 @@ namespace CloudBus.Aws
     public class AwsCloudBusFactory : ICloudBusFactory
     {
         private readonly IAwsWorkerConfiguration workerConfiguration;
-        private readonly string localEventQueueName;
+        private readonly string eventSubscriptionQueueUrl;
         private readonly IConfiguration configuration;
         private readonly IAwsBusConfiguration awsBusConfig;
 
-        public AwsCloudBusFactory(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string localEventQueueName)
+        public AwsCloudBusFactory(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string eventSubscriptionQueueUrl)
+            : this(configuration, awsBusConfig)
         {
             this.workerConfiguration = workerConfiguration;
-            this.localEventQueueName = localEventQueueName;
+            this.eventSubscriptionQueueUrl = eventSubscriptionQueueUrl;
+        }
+
+        public AwsCloudBusFactory(IConfiguration configuration, IAwsBusConfiguration awsBusConfig)
+        {
             this.configuration = configuration;
             this.awsBusConfig = awsBusConfig;
         }
@@ -25,7 +31,11 @@ namespace CloudBus.Aws
 
         public IWorker CreateWorker()
         {
-            return new Worker(configuration, awsBusConfig, workerConfiguration, localEventQueueName);
+            if (workerConfiguration == null)
+            {
+                throw new Exception("Factory is not configured to create a worker");
+            }
+            return new Worker(configuration, awsBusConfig, workerConfiguration, eventSubscriptionQueueUrl);
         }
     }
 }
