@@ -7,8 +7,8 @@ namespace CloudBus.Core
     {
         void BeginLifetimeScope();
 
-        IEnumerable<Action<TMessage>> ResolveHandlersForMessage<TMessage>();
-
+        IEnumerable<Action<object>> ResolveHandlersForMessage(Type messageType);
+        
         void EndLifetimeScope();
     }
 }

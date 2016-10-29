@@ -8,18 +8,24 @@ namespace CloudBus.Aws.Config
 {
     public class AwsConfigurator : ICloudBusConfiguration
     {
-        public INamingConvention NamingConvention { get; private set; }
+        public IQueueAndTopicNamingConvention QueueAndTopicNamingConvention { get; private set; }
 
         public IAwsClientFactory ClientFactory { get; private set; }
 
+        public IAwsWorkerConfiguration WorkerConfig { get; set; }
+
+        public Dictionary<Type, string> CommandQueueNamesAndUrls { get; private set; }
+        
+        public Dictionary<Type, string> EventTopicsAndArns { get; private set; }  
+
         public AwsConfigurator()
         {
-            NamingConvention = new NamingConvention();
+            QueueAndTopicNamingConvention = new QueueAndTopicNamingConvention();
         }
 
-        public AwsConfigurator WithNamingConvention(INamingConvention namingConvention)
+        public AwsConfigurator WithNamingConvention(IQueueAndTopicNamingConvention queueAndTopicNamingConvention)
         {
-            NamingConvention = namingConvention;
+            QueueAndTopicNamingConvention = queueAndTopicNamingConvention;
             return this;
         }
 
@@ -29,7 +35,15 @@ namespace CloudBus.Aws.Config
             return this;
         }
 
-        public ICloudBusFactory Build(Configuration busConfig)
+        public AwsConfigurator WithWorkerConfig(IAwsWorkerConfiguration workerConfiguration)
+        {
+            WorkerConfig = workerConfiguration;
+            return this;
+        }
+
+        
+
+        public ICloudBusFactory Build(IConfiguration busConfig)
         {
             AssemblyScanner scanner = new AssemblyScanner();
 
@@ -46,14 +60,26 @@ namespace CloudBus.Aws.Config
             AwsEnvironmentBuilder builder = new AwsEnvironmentBuilder(ClientFactory);
 
             // Build a queue for each command type
-            Dictionary<Type, string> commandTypeAndQueueUri = allCommandTypes.ToDictionary(commandType => commandType, commandType => builder.CreateQueueIfDoesntExist(NamingConvention.GetQueueNameForCommand(commandType)));
+            Dictionary<Type, string> commandTypeAndQueueUri = allCommandTypes.ToDictionary(commandType => commandType, commandType => builder.CreateQueueIfDoesntExist(QueueAndTopicNamingConvention.GetQueueNameForCommand(commandType)));
 
             // Build a topic for each event type
-            Dictionary<Type, string> eventTypeAndTopicArn = allEventTypes.ToDictionary(eventType => eventType, eventType => builder.CreateTopicIfDoesntExist(NamingConvention.GetTopicNameForEvent(eventType)));
+            Dictionary<Type, string> eventTypeAndTopicArns = allEventTypes.ToDictionary(eventType => eventType, eventType => builder.CreateTopicIfDoesntExist(QueueAndTopicNamingConvention.GetTopicNameForEvent(eventType)));
 
-            var awsConfig = new AwsBusConfig(commandTypeAndQueueUri, eventTypeAndTopicArn, NamingConvention, ClientFactory);
+            var awsConfig = new AwsBusConfig(commandTypeAndQueueUri, eventTypeAndTopicArns, QueueAndTopicNamingConvention, ClientFactory);
+            if (WorkerConfig == null)
+            {
+                // No need to doanything else
+                return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, null);
+            }
 
-            return new AwsCloudBusFactory(busConfig, awsConfig);
+            // As we have a worker config, create subscriptions for our events
+            string queueName = WorkerConfig.SubscriptionQueueNamingConvention.GetWorkerQueueName();
+            builder.CreateQueueIfDoesntExist(queueName);
+            foreach (var eventTypeAndTopicArn in eventTypeAndTopicArns)
+            {
+                builder.SubscribeQueueToTopic(queueName, eventTypeAndTopicArn.Value);
+            }
+            return new AwsCloudBusFactory(busConfig, awsConfig, WorkerConfig, queueName);
         }
     }
 }

@@ -25,6 +25,7 @@ namespace CloudBus.Tests.Integration.Aws
             IBus bus = busFactory.CreateBus();
 
             // Assert
+            bus.Send(new SomeCommand());
         }
 
 

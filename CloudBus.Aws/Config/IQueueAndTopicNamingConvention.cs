@@ -2,7 +2,7 @@
 
 namespace CloudBus.Aws.Config
 {
-    public interface INamingConvention
+    public interface IQueueAndTopicNamingConvention
     {
         string GetQueueNameForCommand(Type commandType);
 

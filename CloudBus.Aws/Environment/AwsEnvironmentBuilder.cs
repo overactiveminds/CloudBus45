@@ -1,4 +1,5 @@
-﻿using Amazon.SimpleNotificationService;
+﻿using System;
+using Amazon.SimpleNotificationService;
 using Amazon.SQS;
 using CloudBus.Aws.Config;
 
@@ -50,6 +51,11 @@ namespace CloudBus.Aws.Environment
                 var creationResult = sns.CreateTopic(name);
                 return creationResult.TopicArn;
             }
+        }
+
+        public void SubscribeQueueToTopic(string queueName, string topicArn)
+        {
+            throw new NotImplementedException();
         }
     }
 }

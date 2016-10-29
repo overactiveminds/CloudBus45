@@ -5,23 +5,27 @@ namespace CloudBus.Aws
 {
     public class AwsCloudBusFactory : ICloudBusFactory
     {
-        private readonly Configuration configuration;
-        private readonly IAwsBusConfiguration awsBusConfigurator;
+        private readonly IAwsWorkerConfiguration workerConfiguration;
+        private readonly string localEventQueueName;
+        private readonly IConfiguration configuration;
+        private readonly IAwsBusConfiguration awsBusConfig;
 
-        public AwsCloudBusFactory(Configuration configuration, IAwsBusConfiguration awsBusConfigurator)
+        public AwsCloudBusFactory(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string localEventQueueName)
         {
+            this.workerConfiguration = workerConfiguration;
+            this.localEventQueueName = localEventQueueName;
             this.configuration = configuration;
-            this.awsBusConfigurator = awsBusConfigurator;
+            this.awsBusConfig = awsBusConfig;
         }
 
         public IBus CreateBus()
         {
-            return new AwsBus(configuration, awsBusConfigurator);
+            return new AwsBus(configuration, awsBusConfig);
         }
 
         public IWorker CreateWorker()
         {
-            throw new System.NotImplementedException();
+            return new Worker(configuration, awsBusConfig, workerConfiguration, localEventQueueName);
         }
     }
 }

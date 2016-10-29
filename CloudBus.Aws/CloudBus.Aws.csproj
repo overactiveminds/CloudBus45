@@ -30,8 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
+    <Reference Include="AWSSDK, Version=2.3.55.2, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.2.3.55.2\lib\net45\AWSSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,18 +50,25 @@
   <ItemGroup>
     <Compile Include="AwsBus.cs" />
     <Compile Include="AwsCloudBusFactory.cs" />
+    <Compile Include="AwsWorkerThread.cs" />
     <Compile Include="Config\AwsBusConfig.cs" />
     <Compile Include="Config\AwsConfigurator.cs" />
+    <Compile Include="Config\AwsWorkerConfiguration.cs" />
+    <Compile Include="Config\AwsWorkerConfigurator.cs" />
+    <Compile Include="Config\IAwsWorkerConfiguration.cs" />
+    <Compile Include="Config\ISubscriptionQueueNamingConvention.cs" />
     <Compile Include="Environment\AwsClientFactory.cs" />
     <Compile Include="Environment\AwsEnvironmentBuilder.cs" />
     <Compile Include="Config\IAwsClientFactory.cs" />
     <Compile Include="Config\IAwsBusConfiguration.cs" />
-    <Compile Include="Config\INamingConvention.cs" />
-    <Compile Include="Environment\NamingConvention.cs" />
+    <Compile Include="Config\IQueueAndTopicNamingConvention.cs" />
+    <Compile Include="Environment\HostNameSubscriptionQueueNamingConvention.cs" />
+    <Compile Include="Environment\QueueAndTopicNamingConvention.cs" />
     <Compile Include="Exceptions\CommandHandlersNotRegisteredException.cs" />
     <Compile Include="Exceptions\MultipleHandlersForCommandException.cs" />
     <Compile Include="MessageEnvelope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudBus.Core\CloudBus.Core.csproj">

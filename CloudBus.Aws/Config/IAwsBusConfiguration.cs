@@ -9,7 +9,7 @@ namespace CloudBus.Aws.Config
 
         Dictionary<Type, string> TopicArnsByType { get; }
             
-        INamingConvention NamingConvention { get; }
+        IQueueAndTopicNamingConvention QueueAndTopicNamingConvention { get; }
 
         IAwsClientFactory ClientFactory { get; }
     }

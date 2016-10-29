@@ -2,6 +2,6 @@
 {
     public interface ICloudBusConfiguration
     {
-        ICloudBusFactory Build(Configuration busConfig);
+        ICloudBusFactory Build(IConfiguration busConfig);
     }
 }

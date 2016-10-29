@@ -3,7 +3,7 @@ using CloudBus.Aws.Config;
 
 namespace CloudBus.Aws.Environment
 { 
-    public class NamingConvention : INamingConvention
+    public class QueueAndTopicNamingConvention : IQueueAndTopicNamingConvention
     {
         public string GetQueueNameForCommand(Type commandType)
         {

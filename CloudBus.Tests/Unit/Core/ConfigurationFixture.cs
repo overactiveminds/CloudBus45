@@ -170,14 +170,14 @@ namespace CloudBus.Tests.Unit.Core
                 
             }
 
+            public IEnumerable<Action<object>> ResolveHandlersForMessage(Type messageType)
+            {
+                return new List<Action<object>> { Handle };
+            }
+
             public void EndLifetimeScope()
             {
                 
-            }
-
-            public IEnumerable<Action<TMessage>> ResolveHandlersForMessage<TMessage>()
-            {
-                return new List<Action<TMessage>> { Handle };
             }
 
             public void Handle<TMessage>(TMessage message)
@@ -193,9 +193,9 @@ namespace CloudBus.Tests.Unit.Core
                 return string.Empty;
             }
 
-            public TMessage Deserialize<TMessage>(string data)
+            public object Deserialize(Type type, string data)
             {
-                return default(TMessage);
+                throw new NotImplementedException();
             }
         }
     }
