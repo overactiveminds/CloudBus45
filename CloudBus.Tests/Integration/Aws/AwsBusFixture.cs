@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Threading;
 using Amazon;
 using CloudBus.Aws.Config;
@@ -11,7 +10,7 @@ using NUnit.Framework;
 namespace CloudBus.Tests.Integration.Aws
 {
     
-    public class AwsBus
+    public class AwsBusFixture
     {
         [Test]
         public void CreateFromConfig()
@@ -22,10 +21,10 @@ namespace CloudBus.Tests.Integration.Aws
             config.DifferentiateEventsAs<Event>();
 
             config.WithHandlerResolver(new ActionHandlerResolver()
-                /*.WithCommandHandler<SomeCommand>(command =>
+                .WithCommandHandler<SomeCommand>(command =>
                 {
                     Console.WriteLine($"SommeCommand Received: {command.Id}");
-                })*/
+                })
                 .WithEventHandler<SomeEvent>(@event =>
                 {
                     Console.WriteLine("$SomeEvent Received:");  
@@ -54,36 +53,11 @@ namespace CloudBus.Tests.Integration.Aws
 
             var worker = busFactory.CreateWorker();
             worker.Start();
-            
 
             Thread.Sleep(10000);
 
         }
 
-        [DataContract]
-        public abstract class Command
-        {
-
-        }
-
-        [DataContract]
-        public abstract class Event
-        {
-            
-        }
-
-        [DataContract]
-        public class SomeCommand : Command
-        {
-            [DataMember]
-            public Guid Id { get; set; }
-        }
-
-        [DataContract]
-        public class SomeEvent : Event
-        {
-            [DataMember]
-            public Guid Id { get; set; }
-        }
+        
     }
 }

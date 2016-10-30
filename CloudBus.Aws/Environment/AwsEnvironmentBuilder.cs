@@ -1,5 +1,4 @@
-﻿using System;
-using Amazon.SimpleNotificationService;
+﻿using Amazon.SimpleNotificationService;
 using Amazon.SQS;
 using CloudBus.Aws.Config;
 

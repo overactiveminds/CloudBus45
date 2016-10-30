@@ -1,4 +1,4 @@
-﻿namespace CloudBus.Aws
+﻿namespace CloudBus.Core
 {
     public class MessageEnvelope
     {

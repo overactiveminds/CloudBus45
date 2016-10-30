@@ -47,6 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -57,18 +58,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\Aws\AwsBus.cs" />
+    <Compile Include="Integration\Aws\AwsBusFixture.cs" />
+    <Compile Include="Integration\Command.cs" />
+    <Compile Include="Integration\Event.cs" />
+    <Compile Include="Integration\SomeCommand.cs" />
+    <Compile Include="Integration\SomeEvent.cs" />
+    <Compile Include="Integration\Azure\AzureBusFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Aws\AwsBusFixture.cs" />
     <Compile Include="Unit\Core\ConfigurationFixture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CloudBus.Aws\CloudBus.Aws.csproj">
       <Project>{F5BA5CE3-108C-4167-9A2C-EE2BD7444567}</Project>
       <Name>CloudBus.Aws</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CloudBus.Azure\CloudBus.Azure.csproj">
+      <Project>{7D66DA45-8A46-4394-89EF-1087A77298D3}</Project>
+      <Name>CloudBus.Azure</Name>
     </ProjectReference>
     <ProjectReference Include="..\CloudBus.Core\CloudBus.Core.csproj">
       <Project>{CE435C77-CDC2-471E-8A0B-C2273D45D83F}</Project>
