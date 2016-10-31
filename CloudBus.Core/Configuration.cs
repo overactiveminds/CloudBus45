@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Castle.Components.DictionaryAdapter;
 using CloudBus.Core.Serialization;
 
 namespace CloudBus.Core
@@ -20,10 +21,16 @@ namespace CloudBus.Core
 
         public ICloudBusConfiguration CloudBusConfiguration { get; private set; }
 
+        public List<Action<object>> AfterCommandActions { get; private set; }
+
+        public List<Action<object>> AfterEventActions { get; private set; }
+
         public Configuration()
         {
             MessageSerializer = new JsonDataContractSerializer();
             AssembliesToScan = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            AfterCommandActions = new EditableList<Action<object>>();
+            AfterEventActions = new EditableList<Action<object>>();
         }
 
         public Configuration WithMessageSerializer(IMessageSerializer messageSerializer)

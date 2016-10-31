@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assemblies\AssemblyScanner.cs" />
+    <Compile Include="Bus.cs" />
     <Compile Include="HandlerResolution\ActionHandlerResolver.cs" />
     <Compile Include="ICloudBusConfiguration.cs" />
     <Compile Include="IMessage.cs" />

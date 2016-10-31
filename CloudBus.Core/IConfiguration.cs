@@ -11,5 +11,7 @@ namespace CloudBus.Core
         IHandlerResolver HandlerResolver { get; }
         IMessageSerializer MessageSerializer { get; }
         List<Assembly> AssembliesToScan { get; }
+        List<Action<object>> AfterCommandActions { get; }
+        List<Action<object>> AfterEventActions { get; }  
     }
 }
