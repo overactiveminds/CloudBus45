@@ -58,6 +58,7 @@
     <Compile Include="IHandlerResolver.cs" />
     <Compile Include="ILog.cs" />
     <Compile Include="IMessageSerializer.cs" />
+    <Compile Include="MessageEnvelope.cs" />
     <Compile Include="Serialization\JsonDataContractSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

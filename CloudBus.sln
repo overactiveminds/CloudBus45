@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Aws", "CloudBus.Aw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Infrastructure.Serialization.Json.Net", "CloudBus.Infrastructure.Serialization.Json.Net\CloudBus.Infrastructure.Serialization.Json.Net.csproj", "{14D8EDF5-5FF5-473B-BB07-6B2E6D312893}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudBus.Azure", "CloudBus.Azure\CloudBus.Azure.csproj", "{7D66DA45-8A46-4394-89EF-1087A77298D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{14D8EDF5-5FF5-473B-BB07-6B2E6D312893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14D8EDF5-5FF5-473B-BB07-6B2E6D312893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14D8EDF5-5FF5-473B-BB07-6B2E6D312893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D66DA45-8A46-4394-89EF-1087A77298D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D66DA45-8A46-4394-89EF-1087A77298D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D66DA45-8A46-4394-89EF-1087A77298D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D66DA45-8A46-4394-89EF-1087A77298D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +54,6 @@ Global
 		{3F80FB84-7C37-418C-89A9-894A11686DDE} = {A4F92F53-3D78-4572-98BB-83966443C3FB}
 		{F5BA5CE3-108C-4167-9A2C-EE2BD7444567} = {99CF57C6-B704-4BEB-B330-E822057A0B13}
 		{14D8EDF5-5FF5-473B-BB07-6B2E6D312893} = {99CF57C6-B704-4BEB-B330-E822057A0B13}
+		{7D66DA45-8A46-4394-89EF-1087A77298D3} = {99CF57C6-B704-4BEB-B330-E822057A0B13}
 	EndGlobalSection
 EndGlobal

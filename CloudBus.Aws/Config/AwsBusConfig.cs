@@ -5,13 +5,13 @@ namespace CloudBus.Aws.Config
 {
     public class AwsBusConfig : IAwsBusConfiguration
     {
-        public Dictionary<Type, string> QueueUrlsByType { get; private set; }
+        public Dictionary<Type, string> QueueUrlsByType { get; }
 
-        public Dictionary<Type, string> TopicArnsByType { get; private set; }
+        public Dictionary<Type, string> TopicArnsByType { get; }
 
-        public IQueueAndTopicNamingConvention QueueAndTopicNamingConvention { get; private set; }
+        public IQueueAndTopicNamingConvention QueueAndTopicNamingConvention { get; }
 
-        public IAwsClientFactory ClientFactory { get; private set; }
+        public IAwsClientFactory ClientFactory { get; }
 
         public AwsBusConfig(Dictionary<Type, string> queueUrlsByType, Dictionary<Type, string> topicArnsByType, IQueueAndTopicNamingConvention queueAndTopicNamingConvention, IAwsClientFactory clientFactory)
         {
