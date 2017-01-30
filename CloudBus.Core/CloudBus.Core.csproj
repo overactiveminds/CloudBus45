@@ -49,6 +49,7 @@
     <Compile Include="HandlerResolution\ActionHandlerResolver.cs" />
     <Compile Include="ICloudBusConfiguration.cs" />
     <Compile Include="IMessage.cs" />
+    <Compile Include="INotifiedOnMessage.cs" />
     <Compile Include="IWorker.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="IBus.cs" />

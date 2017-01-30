@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using CloudBus.Aws.Config;
 using CloudBus.Core;
 
@@ -9,10 +10,10 @@ namespace CloudBus.Aws
 {
     public class Worker : IWorker
     {
-        private IAwsBusConfiguration awsBusConfig;
+        private readonly IAwsBusConfiguration awsBusConfig;
         private readonly IAwsWorkerConfiguration workerConfiguration;
         private readonly string eventSubscriptionQueueUrl;
-        private IConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         public Worker(IConfiguration configuration, IAwsBusConfiguration awsBusConfig, IAwsWorkerConfiguration workerConfiguration, string eventSubscriptionQueueUrl)
         {
@@ -22,23 +23,12 @@ namespace CloudBus.Aws
             this.eventSubscriptionQueueUrl = eventSubscriptionQueueUrl;
         }
 
-        public void Start()
+        public Task Start(CancellationToken token)
         {
-            // TODO: Add cancelllation token
             int id = 1;
-            List<AwsWorkerThread> workers = awsBusConfig.QueueUrlsByType.Select(commandType => new AwsWorkerThread(id++, configuration, awsBusConfig, commandType.Value, new CommandMessageAdapter())).ToList();
-            workers.Add(new AwsWorkerThread(id, configuration, awsBusConfig, eventSubscriptionQueueUrl, new SnsEventMessageAdapter()));
-            foreach (var awsWorkerThread in workers)
-            {
-                Thread thread = new Thread(awsWorkerThread.Work);
-                thread.Start();
-            }
-        }
-
-        public void Stop()
-        {
-            // TODO: Cancel workers
-            throw new NotImplementedException();
+            List<AwsWorker> workers = awsBusConfig.QueueUrlsByType.Select(commandType => new AwsWorker(id++, configuration, awsBusConfig, commandType.Value, new CommandMessageAdapter())).ToList();
+            workers.Add(new AwsWorker(id, configuration, awsBusConfig, eventSubscriptionQueueUrl, new SnsEventMessageAdapter()));
+            return Task.WhenAll(workers.Select(x => x.Work()).ToArray());
         }
     }
 }

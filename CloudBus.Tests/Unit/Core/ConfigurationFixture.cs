@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using CloudBus.Core;
 using NUnit.Framework;
@@ -170,9 +169,9 @@ namespace CloudBus.Tests.Unit.Core
                 
             }
 
-            public IEnumerable<Action<object>> ResolveHandlersForMessage(Type messageType)
+            public Action<object> ResolveHandlerForMessage(Type messageType)
             {
-                return new List<Action<object>> { Handle };
+                return Handle;
             }
 
             public void EndLifetimeScope()

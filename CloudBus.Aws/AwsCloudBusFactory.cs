@@ -1,5 +1,4 @@
-﻿using System;
-using CloudBus.Aws.Config;
+﻿using CloudBus.Aws.Config;
 using CloudBus.Core;
 
 namespace CloudBus.Aws
@@ -31,10 +30,6 @@ namespace CloudBus.Aws
 
         public IWorker CreateWorker()
         {
-            if (workerConfiguration == null)
-            {
-                throw new Exception("Factory is not configured to create a worker");
-            }
             return new Worker(configuration, awsBusConfig, workerConfiguration, eventSubscriptionQueueUrl);
         }
     }

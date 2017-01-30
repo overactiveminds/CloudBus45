@@ -5,7 +5,7 @@ namespace CloudBus.Core.HandlerResolution
 {
     public class ActionHandlerResolver : IHandlerResolver
     {
-        readonly Dictionary<Type, List<Action<object>>> allHandlers = new Dictionary<Type, List<Action<object>>>();
+        readonly Dictionary<Type, Action<object>> allHandlers = new Dictionary<Type, Action<object>>();
 
         public ActionHandlerResolver WithCommandHandler<TCommand>(Action<TCommand> handler)
         {
@@ -14,30 +14,25 @@ namespace CloudBus.Core.HandlerResolution
             {
                 throw new ArgumentException($"Command handler for type {commandType} has already been registered");
             }
-            List<Action<object>> handlers = new List<Action<object>>
-            {
-                x => handler((TCommand)x)
-            };
-            allHandlers.Add(typeof(TCommand), handlers);
+            allHandlers.Add(typeof(TCommand), x => handler((TCommand)x));
             return this;
         }
 
         public ActionHandlerResolver WithEventHandler<TEvent>(Action<TEvent> handler)
         {
-            List<Action<object>> handlers;
-            if (!allHandlers.TryGetValue(typeof (TEvent), out handlers))
+            Type eventType = typeof(TEvent);
+            if (allHandlers.ContainsKey(eventType))
             {
-                handlers = new List<Action<object>>();
-                allHandlers.Add(typeof(TEvent), handlers);
+                throw new ArgumentException($"Event handler for type {eventType} has already been registered");
             }
-            handlers.Add(x => handler((TEvent) x));
+            allHandlers.Add(typeof(TEvent), x => handler((TEvent)x));
             return this;
         }
 
-        public IEnumerable<Action<object>> ResolveHandlersForMessage(Type messageType)
+        public Action<object> ResolveHandlerForMessage(Type messageType)
         {
-            List<Action<object>> handlers;
-            return allHandlers.TryGetValue(messageType, out handlers) ? handlers : new List<Action<object>>();
+            Action<object> handler;
+            return allHandlers.TryGetValue(messageType, out handler) ? handler : null;
         }
     }
 }

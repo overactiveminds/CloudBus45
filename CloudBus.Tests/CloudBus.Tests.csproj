@@ -58,12 +58,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Integration\Aws\AwsBusFixture.cs" />
+    <Compile Include="Integration\BusSendAndReceiveTest.cs" />
     <Compile Include="Integration\Command.cs" />
     <Compile Include="Integration\Event.cs" />
     <Compile Include="Integration\SomeCommand.cs" />
     <Compile Include="Integration\SomeEvent.cs" />
-    <Compile Include="Integration\Azure\AzureBusFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Aws\AwsBusFixture.cs" />
     <Compile Include="Unit\Core\ConfigurationFixture.cs" />
@@ -84,10 +83,6 @@
     <ProjectReference Include="..\CloudBus.Core\CloudBus.Core.csproj">
       <Project>{CE435C77-CDC2-471E-8A0B-C2273D45D83F}</Project>
       <Name>CloudBus.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CloudBus.Infrastructure.Serialization.Json.Net\CloudBus.Infrastructure.Serialization.Json.Net.csproj">
-      <Project>{14D8EDF5-5FF5-473B-BB07-6B2E6D312893}</Project>
-      <Name>CloudBus.Infrastructure.Serialization.Json.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

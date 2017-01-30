@@ -1,9 +1,10 @@
-﻿namespace CloudBus.Core
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace CloudBus.Core
 {
     public interface IWorker
     {
-        void Start();
-
-        void Stop();
+        Task Start(CancellationToken token);
     }
 }

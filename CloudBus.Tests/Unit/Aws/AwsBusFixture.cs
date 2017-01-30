@@ -28,7 +28,7 @@ namespace CloudBus.Tests.Unit.Aws
             config.Setup(x => x.MessageSerializer).Returns(() =>
             {
                 var mockMessageSerializer = new Mock<IMessageSerializer>();
-                mockMessageSerializer.Setup(x => x.Serialize(commandToSend))
+                mockMessageSerializer.Setup(x => x.Serialize(It.IsAny<MessageEnvelope>()))
                     .Returns(expectedMessageBody);
                 return mockMessageSerializer.Object;
             });
@@ -74,7 +74,7 @@ namespace CloudBus.Tests.Unit.Aws
             config.Setup(x => x.MessageSerializer).Returns(() =>
             {
                 var mockMessageSerializer = new Mock<IMessageSerializer>();
-                mockMessageSerializer.Setup(x => x.Serialize(eventToSend))
+                mockMessageSerializer.Setup(x => x.Serialize(It.IsAny<MessageEnvelope>()))
                     .Returns(expectedMessageBody);
                 return mockMessageSerializer.Object;
             });
