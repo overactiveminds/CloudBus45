@@ -18,7 +18,7 @@ The main goal of this project is to enable us to explore XCloud deployments wher
 # To run the tests
 
 1. Create an Azure Service Bus endpoint and copy your connection string into app.config.
-2. Create a default profile for AWS or alter the test code to create your AwsClinetFactory with credietnials - see constructor in AwsClientFactory
+2. Create a default profile for AWS or alter the test code to create your AwsClinetFactory with credientials - see constructor in AwsClientFactory
 3. Run BusSendAndReceiveTest to see the bus and workers in action.
 
 # Known Issues
