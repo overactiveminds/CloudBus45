@@ -1,0 +1,23 @@
+﻿{
+  "busConfiguration": {
+    "differentiateCommandsAs": "TYPE",
+    "differentiateEventsAs": "TYPE",
+    "handlerResolver": "TYPE",
+    "primaryBus": "NAME_OF_BUS",
+    "shadowBuses": [ "azure" ],
+    "buses": {
+      "aws": {
+        "busFactory": "TYPE",
+        "config": {
+
+        }
+      },
+      "azure": {
+        "busFactory": "Type",
+        "config": {
+
+        }
+      }
+    }
+  }
+}
